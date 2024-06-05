@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <%- include ("head") %>
+</head>
+<body>
+    <div class="users">
+        <%for (let i = 0; i < sortedUsers.length; i++) { %>
+                <h2><%= sortedUsers[i].name %>, <%= sortedUsers[i].createdAt %></h2>
+            <p><%= sortedUsers[i].message %></p>
+        <% } %>
+    </div>
+</body>
+</html>
