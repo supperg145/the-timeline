@@ -4,6 +4,14 @@
  <%- include ("head") %>
 </head>
 <body>
+    <h2>Post a message</h2>
+    <form action="/" class="postit" method="POST">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name">
+        <label for="message">Message:</label>
+        <input type="textarea" id="message" name="message">
+        <button>Post a message</button>
+    </form>
     <div class="users">
         <%for (let i = 0; i < sortedUsers.length; i++) { %>
                 <h2><%= sortedUsers[i].name %>, <%= sortedUsers[i].createdAt %></h2>
