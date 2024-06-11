@@ -11,6 +11,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
         minLength: 25
+    },
+    comment: {
+        type: String,
+        
     }
 }, { timestamps: true });
 

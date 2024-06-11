@@ -7,6 +7,10 @@ const userFunctions = require("../controller/userController.js");
 router.get("/", userFunctions.getUsers);
 
 // POST new user message
-router.post("/", userFunctions.postMessage);
+router.post("/postmessage", userFunctions.postMessage);
+
+//post new comment
+router.post("/postcomment", userFunctions.postComment)
+
 
 module.exports = router;
