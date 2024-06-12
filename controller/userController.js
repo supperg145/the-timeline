@@ -2,7 +2,7 @@ const User = require("../models/users.js");
 
 const getUsers = (req, res) => {
   console.log("GET for all users received");
-  User.find().then((result) =>
+  User.find().sort().then((result) =>
     {
     console.log(result),
     res.render("index",{
@@ -36,11 +36,16 @@ const postComment = (req, res) => {
   // Extract comment and usersId from request body
   const { comment, usersId } = req.body;
 
-  User.findByIdAndUpdate(usersId, { comment }, { new: true })
+  User.findById(usersId)
     .then((user) => {
       if (!user) {
         return res.status(404).send("User not found");
       }
+
+      user.comments.push({ text: comment });
+      return user.save();
+    })
+    .then(() => {
       res.redirect("/");
     })
     .catch((error) => {
@@ -48,7 +53,6 @@ const postComment = (req, res) => {
       res.status(500).send("Error posting comment");
     });
 };
-
 
 
 

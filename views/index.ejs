@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
  <%- include ("head") %>
+ <link rel="stylesheet" href="/path/to/your/css/file.css">
 </head>
 <body>
     <h2>Post a message</h2>
@@ -17,8 +18,16 @@
             <h2><%= users[i].name %>, <%= users[i].createdAt %></h2>
             <p><%= users[i].message %></p>
             <div class="commentcontainer">
-                <h2>Comments:</h2>
-                <p><%= users[i].comment %></p>
+                <% if (users[i].comments.length > 0) { %>
+                    <% users[i].comments.forEach(function(comment) { %>
+                        <div class="comment">
+                            <p><%= comment.text %></p>
+                            <small><%= comment.createdAt %></small>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>No comments yet.</p>
+                <% } %>
             </div>
             <form action="/postcomment" class="postcomment" method="POST">
                 <label for="comment-<%= users[i]._id %>">Type your comment here</label>
