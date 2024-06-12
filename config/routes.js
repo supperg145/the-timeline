@@ -18,6 +18,8 @@ router.get("/delete/users/:id", userFunctions.deleteUser)
 router.get("/delete/:userId/:commentId", userFunctions.deleteComment)
 
 //update a message
-router.get("/update/users/:id", userFunctions.editMessagePage)
+router.get("/users/:id", userFunctions.editMessagePage)
+router.post("/user/:id", userFunctions.editMessageForm)
+
 
 module.exports = router;

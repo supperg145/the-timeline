@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ("head") %>
+  </head>
+  <body>
+    <form action="/user/<%= users._id%>" class="postit" method="POST">
+      <label for="name">Your Name</label>
+      <input value="<%=users.name %>" type="text" id="name" name="name" required />
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" required><%=users.message %></textarea>
+      <h3 name="error" class="error-message" style="color: red"><%= err %></h3>
+      <button type="submit">Post a message</button>
+    </form>
+  </body>
+</html>

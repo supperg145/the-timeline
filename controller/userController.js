@@ -3,11 +3,12 @@ const User = require("../models/users.js");
 const getUsers = (req, res) => {
   console.log("GET for all users received");
   User.find()
-    .sort()
+    .sort({ createdAt: -1})
     .then((result) => {
       console.log(result),
         res.render("index", {
           users: result,
+          err: ""
         });
     })
     .catch((error) => {
@@ -18,6 +19,21 @@ const getUsers = (req, res) => {
 
 const postMessage = (req, res) => {
   console.log("Post request sent", req.body);
+  if (req.body.message.length < 25) {
+    User.find()
+      .sort({ createdAt: -1 })
+      .then((result) => {
+        return res.render("index", {
+          err: "Message must be at least 25 characters long",
+          users: result
+        });
+      })
+      .catch((error) => {
+        console.error(`Error fetching users: ${error}`);
+        res.status(500).send("Error fetching users");
+      });
+    return;
+  }
   const user = new User(req.body);
   user
     .save()
@@ -94,10 +110,43 @@ const deleteComment = (req, res) => {
 };
 
 const editMessagePage = (req, res) => {
-User.findById(req.params.id)
-.then(user => 
-  console.log(user)
-)
+  User.findById(req.params.id)
+  .then((result) => {
+    console.log(result),
+      res.render("editForm", {
+        users: result,
+        err: ""
+      });
+  })
+  .catch((error) => {
+    console.error(`Error fetching user: ${error}`);
+    res.status(500).send("Error fetching user");
+  });
+}
+
+const editMessageForm = (req, res) => {
+  if (req.body.message.length < 25) {
+    User.findById(req.params.id)
+      .then((result) => {
+        return res.render("editForm", {
+          err: "Message must be at least 25 characters long",
+          users: result
+        });
+      })
+      .catch((error) => {
+        console.error(`Error fetching users: ${error}`);
+        res.status(500).send("Error fetching users");
+      });
+    return;
+  }
+  User.findByIdAndUpdate(req.params.id, req.body)
+  .then(() => {
+    res.redirect("/")
+  })
+  .catch((error) => {
+    console.error(`Error updating user: ${error}`);
+    res.status(500).send("Error updating user");
+  });
 }
 
 module.exports = {
@@ -107,4 +156,5 @@ module.exports = {
   deleteUser,
   deleteComment,
   editMessagePage,
+  editMessageForm
 };

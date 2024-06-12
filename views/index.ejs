@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
- <%- include ("head") %>
- <link rel="stylesheet" href="/path/to/your/css/file.css">
-</head>
-<body>
+  <head>
+    <%- include ("head") %>
+  </head>
+  <body>
     <h2>Post a message</h2>
     <form action="/postmessage" class="postit" method="POST">
-        <label for="name">Your Name</label>
-        <input type="text" id="name" name="name" required>
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" required></textarea>
-        <button type="submit">Post a message</button>
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" required />
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" required></textarea>
+      <h3 name="error" class="error-message" style="color: red"><%= err %></h3>
+      <button type="submit">Post a message</button>
     </form>
     <div class="users">
-        <% for (let i = 0; i < users.length; i++) { %>
-            <h2><%= users[i].name %>, <%= users[i].createdAt %></h2>
-            <p><%= users[i].message %></p>
-            <a href="/delete/users/<%= users[i]._id %>" class="del-user">Delete</a>
-            <a href="/update/users/<%= users[i]._id %>" class="update-user">Edit</a>
-            <div class="commentcontainer">
-                <% if (users[i].comments.length > 0) { %>
-                    <% users[i].comments.forEach(function(comment) { %>
-                        <div class="comment">
-                            <p><%= comment.text %></p>
-                            <small><%= comment.createdAt %></small>
-                            <a href="/delete/<%= users[i]._id %>/<%= comment._id %>">Delete comment</a>
-                        </div>
-                    <% }); %>
-                <% } else { %>
-                    <p>No comments yet.</p>
-                <% } %>
-            </div>
-            <form action="/postcomment" class="postcomment" method="POST">
-                <label for="comment-<%= users[i]._id %>">Type your comment here</label>
-                <input type="text" id="comment-<%= users[i]._id %>" name="comment" required>
-                <input type="hidden" name="usersId" value="<%= users[i]._id %>">
-                <button type="submit">Comment</button>
-            </form>
+      <% for (let i = 0; i < users.length; i++) { %>
+      <h2><%= users[i].name %>, <%= users[i].createdAt %></h2>
+      <p><%= users[i].message %></p>
+      <a href="/delete/users/<%= users[i]._id %>" class="del-user">Delete</a>
+      <a href="/users/<%= users[i]._id %>" class="update-user">Edit</a>
+      <div class="commentcontainer">
+        <% if (users[i].comments.length > 0) { %> <%
+        users[i].comments.forEach(comment => { %>
+        <div class="comment">
+          <p><%= comment.text %></p>
+          <small><%= comment.createdAt %></small>
+          <a href="/delete/<%= users[i]._id %>/<%= comment._id %>"
+            >Delete comment</a
+          >
+        </div>
+        <% }); %> <% } else { %>
+        <p>No comments yet.</p>
         <% } %>
+      </div>
+      <form action="/postcomment" class="postcomment" method="POST">
+        <label for="comment-<%= users[i]._id %>">Type your comment here</label>
+        <input
+          type="text"
+          id="comment-<%= users[i]._id %>"
+          name="comment"
+          required
+        />
+        <input type="hidden" name="usersId" value="<%= users[i]._id %>" />
+        <button type="submit">Comment</button>
+      </form>
+      <% } %>
     </div>
-</body>
+  </body>
 </html>
