@@ -9,8 +9,15 @@ router.get("/", userFunctions.getUsers);
 // POST new user message
 router.post("/postmessage", userFunctions.postMessage);
 
-//post new comment
 router.post("/postcomment", userFunctions.postComment)
 
+//deleting a message
+router.get("/delete/users/:id", userFunctions.deleteUser)
+
+//deleting a comment
+router.get("/delete/:userId/:commentId", userFunctions.deleteComment)
+
+//update a message
+router.get("/update/users/:id", userFunctions.editMessagePage)
 
 module.exports = router;

@@ -48,6 +48,10 @@ form.postit button:hover, form.postcomment button:hover {
    background: #218838;
 }
 
+.del-user{
+   
+}
+
 div.users {
    margin-top: 20px;
 }

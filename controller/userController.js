@@ -2,19 +2,18 @@ const User = require("../models/users.js");
 
 const getUsers = (req, res) => {
   console.log("GET for all users received");
-  User.find().sort().then((result) =>
-    {
-    console.log(result),
-    res.render("index",{
-      users: result,
+  User.find()
+    .sort()
+    .then((result) => {
+      console.log(result),
+        res.render("index", {
+          users: result,
+        });
     })
-  }
-  )
     .catch((error) => {
       console.error(`Error fetching user: ${error}`);
       res.status(500).send("Error fetching user");
     });
-    
 };
 
 const postMessage = (req, res) => {
@@ -54,10 +53,58 @@ const postComment = (req, res) => {
     });
 };
 
+const deleteUser = (req, res) => {
+  console.log("Send delete request for user id: ", req.params.id);
+  User.findByIdAndDelete(req.params.id)
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(`Error deleting user ${err}`);
+      res.status(500).send("Error deleting user");
+    });
+};
 
+const deleteComment = (req, res) => {
+  console.log(
+    `Sent delete request for user ${req.params.userId} and for comment: ${req.params.commentId}`
+  );
+  const user = User.findById(req.params.userId)
+    .then((user) => {
+      const commentIndex = user.comments.findIndex(
+        (comment) => comment._id.toString() === req.params.commentId
+      );
+      console.log("Comment index: ", commentIndex);
+
+      if (commentIndex === -1) {
+        return res.status(404).json({ error: "Comment not found" });
+      }
+
+      user.comments.splice(commentIndex, 1);
+
+      return user.save();
+    })
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(`Error deleting user ${err}`);
+      res.status(500).send("Error deleting user");
+    });
+};
+
+const editMessagePage = (req, res) => {
+User.findById(req.params.id)
+.then(user => 
+  console.log(user)
+)
+}
 
 module.exports = {
   getUsers,
   postMessage,
   postComment,
+  deleteUser,
+  deleteComment,
+  editMessagePage,
 };

@@ -17,12 +17,15 @@
         <% for (let i = 0; i < users.length; i++) { %>
             <h2><%= users[i].name %>, <%= users[i].createdAt %></h2>
             <p><%= users[i].message %></p>
+            <a href="/delete/users/<%= users[i]._id %>" class="del-user">Delete</a>
+            <a href="/update/users/<%= users[i]._id %>" class="update-user">Edit</a>
             <div class="commentcontainer">
                 <% if (users[i].comments.length > 0) { %>
                     <% users[i].comments.forEach(function(comment) { %>
                         <div class="comment">
                             <p><%= comment.text %></p>
                             <small><%= comment.createdAt %></small>
+                            <a href="/delete/<%= users[i]._id %>/<%= comment._id %>">Delete comment</a>
                         </div>
                     <% }); %>
                 <% } else { %>
