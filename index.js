@@ -3,6 +3,7 @@ const routes = require("./config/routes");
 const mongoose = require("mongoose");
 const User = require("./models/users");
 const morgan = require("morgan");
+const bodyParser = require('body-parser');
 require("dotenv").config();
 
 //initializing express app with PORT
@@ -23,8 +24,11 @@ app.use(morgan("dev"));
 app.use("/public", express.static("public"));
 //parsing incoming data from form to an object
 app.use(express.urlencoded({ extended: true }));
+//
+app.use(bodyParser.json());
 //set the view engine as ejs to be able to show ejs code
 app.set("view engine", "ejs");
 //tell the server where to find routes
 app.use(routes);
+
 //start the server
